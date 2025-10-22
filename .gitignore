@@ -1,0 +1,168 @@
+# Internal documentation (not published)
+chatroutes_autobranch.md
+chatroutes_autobranch_v*.md
+supplement_*.md
+addendum_*.md
+PUBLICATION_GUIDE.md
+claude.md
+SESSION_SUMMARY.md
+IMPLEMENTATION_STATUS.md
+IMPLEMENTATION_COMPLETE.md
+READY_TO_PUBLISH.md
+LOCAL_TESTING_GUIDE.md
+TEST_SCRIPTS_README.md
+CREATING_CANDIDATES.md
+ENHANCED_LOGGING_GUIDE.md
+OLLAMA_ISSUE_RESOLVED.md
+QWEN3_UPGRADE.md
+
+# Private test scripts (not published)
+test_scripts/
+manual_test_*.py
+demo_*.py
+private_*.py
+diagnose_*.py
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask
+instance/
+.webassets-cache
+
+# Scrapy
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.env.local
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS-specific
+Thumbs.db
+*.tmp
+
+# Benchmark results
+.benchmarks/
+benchmark_results/
+
+# Pre-commit
+.pre-commit-config.yaml
