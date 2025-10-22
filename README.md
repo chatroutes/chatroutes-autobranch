@@ -25,6 +25,33 @@ Modern LLM applications often need to explore multiple reasoning paths (tree-of-
 
 ---
 
+## 🚀 Interactive Demos (Try it Now!)
+
+### Getting Started Demo (Recommended)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/getting_started_demo.ipynb)
+
+**Perfect for first-time users!** Learn the fundamentals in 5 minutes:
+- ✅ Installation and setup
+- ✅ Basic beam search examples
+- ✅ Multi-strategy scoring
+- ✅ Novelty filtering
+- ✅ Complete pipeline with budget control
+
+**No setup required** - runs entirely in your browser!
+
+### Creative Writing Scenario (Advanced)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/creative_writing_colab.ipynb)
+
+**See it in action with a real LLM!** Complete creative writing assistant:
+- ✅ Full Ollama integration (free, local inference)
+- ✅ Multi-turn branching (tree exploration)
+- ✅ GPU/CPU performance comparison
+- ✅ 4 complete story scenarios
+
+[**📚 View all notebooks →**](notebooks/README.md)
+
+---
+
 ## Quick Start
 
 **Install:**
