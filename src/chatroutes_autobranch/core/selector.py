@@ -170,7 +170,10 @@ class BranchSelector:
             details["budget_manager"] = "disabled"
 
         # Determine final kept candidates
-        kept = after_novelty if should_continue else []
+        # NOTE: should_continue indicates whether to expand these candidates further,
+        # but we still return the filtered candidates. The caller decides whether
+        # to add them to the exploration queue based on should_continue.
+        kept = after_novelty
 
         return SelectionResult(
             kept=kept,

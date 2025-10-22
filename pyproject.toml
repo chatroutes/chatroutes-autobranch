@@ -1,18 +1,19 @@
 [project]
 name = "chatroutes-autobranch"
-version = "0.1.0"
-description = "Controlled branching generation for LLM applications"
+version = "1.0.1"
+description = "Intelligent branch exploration for LLM-powered applications"
 readme = "README.md"
-requires-python = ">=3.10"
-license = {text = "Apache-2.0"}
+requires-python = ">=3.9"
+license = {text = "MIT"}
 authors = [
     {name = "ChatRoutes Team", email = "hello@chatroutes.com"}
 ]
 keywords = ["llm", "beam-search", "tree-of-thought", "branching", "ai", "machine-learning"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
