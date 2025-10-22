@@ -2,8 +2,10 @@
 
 **Controlled branching generation for LLM applications**
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI version](https://badge.fury.io/py/chatroutes-autobranch.svg)](https://badge.fury.io/py/chatroutes-autobranch)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/creative_writing_colab.ipynb)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Modern LLM applications often need to explore multiple reasoning paths (tree-of-thought, beam search, multi-agent systems) while staying **usable** and **affordable**. `chatroutes-autobranch` provides clean, standalone primitives for:
@@ -19,7 +21,7 @@ Modern LLM applications often need to explore multiple reasoning paths (tree-of-
 - ✅ Embedding-agnostic (OpenAI, HuggingFace, or custom)
 - ✅ Production-ready (thread-safe, observable, checkpoint/resume)
 - ✅ Framework-friendly (works with LangChain, LlamaIndex, or raw LLM APIs)
-- ✅ Zero vendor lock-in (Apache 2.0, no cloud dependencies)
+- ✅ Zero vendor lock-in (MIT License, no cloud dependencies)
 
 ---
 
