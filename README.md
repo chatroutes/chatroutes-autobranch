@@ -429,11 +429,11 @@ We welcome contributions! Please see our [contributing guidelines](./CONTRIBUTIN
 
 ## Roadmap
 
-- **v0.1.0** (Q1 2025): Core components, tests, FastAPI service
-- **v0.2.0** (Q2 2025): MMR novelty, FAISS support, adaptive K
-- **v0.3.0** (Q3 2025): Async/await, cluster-aware pruning
-- **v0.4.0** (Q4 2025): Tree visualizer, summarization checkpoints
-- **v0.5.0** (Q1 2026): gRPC service, TypeScript SDK
+- **v1.0.0** ✅ **RELEASED** (January 2025): Core components, beam search, MMR novelty, cosine filtering, entropy stopping, budget management, full test suite
+- **v1.1.0** (Q2 2025): FAISS support for large-scale similarity, adaptive K scheduling
+- **v1.2.0** (Q3 2025): Tree visualization tools, FastAPI service for multi-language support
+- **v1.3.0** (Q4 2025): Async/await support, cluster-aware pruning
+- **v2.0.0** (Q1 2026): gRPC service, TypeScript SDK, breaking API improvements
 
 ---
 
@@ -443,7 +443,7 @@ We welcome contributions! Please see our [contributing guidelines](./CONTRIBUTIN
 A: No. This library is standalone and has zero cloud dependencies. Use it with any LLM provider.
 
 **Q: Can I use this with TypeScript/JavaScript?**
-A: Yes. Run the FastAPI service and call via HTTP. Native TS SDK planned for v0.5.0.
+A: Yes. Run the FastAPI service and call via HTTP. Native TS SDK planned for v2.0.0.
 
 **Q: How do I choose beam width K?**
 A: Start with K=3-5. Use budget formula: `K ≈ (budget/tokens_per_branch)^(1/depth)`. See [tuning guide](./chatroutes_autobranch_v1.0.md#19-tuning-guide-choosing-beam-width-k).
@@ -458,7 +458,7 @@ A: Yes, with fixed random seeds and deterministic tie-breaking. See [tests](./ch
 
 ## License
 
-Apache License 2.0 - see [LICENSE](./LICENSE) file for details.
+MIT License - see [LICENSE](./LICENSE) file for details.
 
 ---
 
