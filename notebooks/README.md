@@ -165,7 +165,7 @@ Interactive Google Colab notebooks to learn and experiment with ChatRoutes AutoB
 
 - **Issues**: https://github.com/chatroutes/chatroutes-autobranch/issues
 - **Discussions**: https://github.com/chatroutes/chatroutes-autobranch/discussions
-- **Email**: hello@chatroutes.com
+- **Email**: support@chatroutes.com
 
 ---
 

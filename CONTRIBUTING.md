@@ -18,7 +18,7 @@ Thank you for your interest in contributing to chatroutes-autobranch! We welcome
 
 ## Code of Conduct
 
-This project adheres to the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/). By participating, you are expected to uphold this code. Please report unacceptable behavior to hello@chatroutes.com.
+This project adheres to the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/). By participating, you are expected to uphold this code. Please report unacceptable behavior to support@chatroutes.com.
 
 **In short:**
 - Be respectful and inclusive
@@ -402,7 +402,7 @@ python -m twine upload dist/*
 
 - **GitHub Issues** - Bug reports, feature requests
 - **GitHub Discussions** - Questions, ideas, general discussion
-- **Email** - hello@chatroutes.com (for sensitive issues)
+- **Email** - support@chatroutes.com (for sensitive issues)
 
 ### Questions?
 
@@ -456,4 +456,4 @@ By contributing, you agree that your contributions will be licensed under the Ap
 
 **Thank you for contributing to chatroutes-autobranch!** 🚀
 
-Questions? Reach out in [Discussions](https://github.com/chatroutes/chatroutes-autobranch/discussions) or email hello@chatroutes.com
+Questions? Reach out in [Discussions](https://github.com/chatroutes/chatroutes-autobranch/discussions) or email support@chatroutes.com
