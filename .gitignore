@@ -155,6 +155,11 @@ dmypy.json
 *.swo
 *~
 .DS_Store
+.claude/
+
+# Personal test files
+main.py
+test_main.http
 
 # OS-specific
 Thumbs.db
