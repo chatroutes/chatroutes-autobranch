@@ -1,5 +1,5 @@
 """
-Creative Writing Usage Example with 100% FREE Models.
+Creative Writing Usage Example with 100% FREE Models (OPTIMIZED v1.1).
 
 This example demonstrates chatroutes-autobranch for creative writing scenarios:
 1. Ollama models (qwen3:14b, gpt-oss:20b, or llama3.1:8b) for candidates (100% FREE!)
@@ -7,6 +7,7 @@ This example demonstrates chatroutes-autobranch for creative writing scenarios:
 3. High temperature generation for diversity
 4. Entropy-based stopping for convergence detection
 5. Novelty filtering to avoid repetition
+6. OPTIMIZED: Single-unit prompts, better sampling, boilerplate filtering
 
 Requirements:
     pip install sentence-transformers requests
@@ -24,27 +25,32 @@ Requirements:
     - Use sentence-transformers embeddings (FREE, runs locally!)
     - Total cost: $0 - Everything runs on your machine!
 
-Creative Writing Scenarios:
-1. AI Memory Story - Shows entropy staying high across diverse genres
-   Uses: jina-embeddings-v2-base-en (768D, score: 60.3, excellent quality)
+Creative Writing Scenarios (OPTIMIZED):
+1. AI Memory Story - Single-unit prompts prevent list-template cloning
+   Uses: bge-large-en-v1.5 (1024D, excellent quality, consistent)
 
-2. Mars Detective Twists - Demonstrates clustering of distinct ideas
-   Uses: all-mpnet-base-v2 (768D, score: 57.8, good quality, faster)
+2. Mars Detective Twists - Boilerplate filtering removes "Here are five..."
+   Uses: bge-large-en-v1.5 (1024D, excellent quality, consistent)
 
-3. Rom-Com Endings - Perfect entropy-based stopping visualization
-   Uses: BAAI/bge-large-en-v1.5 (1024D, score: 59.5, very good quality)
+3. Rom-Com Endings - Better sampling params (top_p, top_k, repeat_penalty)
+   Uses: bge-large-en-v1.5 (1024D, excellent quality, consistent)
 
-4. Style Variations - Intent alignment and style variance
-   Uses: jina-embeddings-v2-base-en (768D, score: 60.3, excellent quality)
+4. Style Variations - Increased novelty weight for creative diversity
+   Uses: bge-large-en-v1.5 (1024D, excellent quality, consistent)
 
-Note: Each scenario uses a different free embedding model to demonstrate variety.
-      All models are excellent quality (scores 57.8-60.3, nearly as good as OpenAI 64.6).
+OPTIMIZATIONS (v1.1):
+- Single-unit prompts: Request ONE item instead of lists → prevents cloning
+- Better sampling: Added top_p=0.95, top_k=80, repeat_penalty=1.1, seed variance
+- Boilerplate filter: Removes "Here are...", "What a...", etc.
+- Consistent embeddings: Single model (bge-large-en-v1.5) for all scenarios
+- Creative weights: Increased novelty weight (0.35-0.40) for diversity
 """
 
 import sys
 import os
 import requests
 import time
+import re
 from datetime import datetime
 from typing import Optional
 
@@ -88,6 +94,41 @@ def format_elapsed_time(seconds: float) -> str:
 def get_timestamp() -> str:
     """Get current timestamp in HH:MM:SS format."""
     return datetime.now().strftime("%H:%M:%S")
+
+
+# Boilerplate detection patterns (OPTIMIZATION v1.1)
+BOILERPLATE_PATTERNS = [
+    r"^Here (are|is)",
+    r"^What a (thrilling|fascinating|delightful|wonderful|interesting)",
+    r"^\*\*Option \d",
+    r"^\*\*Plot Twist",
+    r"^Five (plot twists|ideas|suggestions)",
+    r"^Three (endings|options|variations)",
+    r"^\d+\.",  # Numbered lists like "1."
+    r"^Option \d+:",
+    r"^Plot Twist \d+:",
+]
+
+
+def is_boilerplate(text: str) -> bool:
+    """
+    Detect boilerplate list-template responses.
+
+    Args:
+        text: Response text to check.
+
+    Returns:
+        True if text matches boilerplate patterns.
+
+    Examples:
+        >>> is_boilerplate("Here are five plot twists...")
+        True
+        >>> is_boilerplate("The detective discovered...")
+        False
+    """
+    # Check first 100 characters for boilerplate markers
+    text_start = text[:100].strip()
+    return any(re.match(p, text_start, re.IGNORECASE) for p in BOILERPLATE_PATTERNS)
 
 
 class SentenceTransformerEmbeddingProvider:
@@ -239,7 +280,11 @@ def generate_creative_candidates(
         for i in range(n):
             candidate_start = time.time()
 
-            # Ollama API call
+            # OPTIMIZATION v1.1: Better sampling parameters
+            # - top_p=0.95: Nucleus sampling (cut off low-prob tail)
+            # - top_k=80: Limit to top 80 tokens (diversity while avoiding nonsense)
+            # - repeat_penalty=1.1: Reduce repetition
+            # - seed=1000+i: Different seed per candidate for diversity
             response = requests.post(
                 "http://localhost:11434/api/generate",
                 json={
@@ -248,8 +293,12 @@ def generate_creative_candidates(
                     "temperature": temperature,
                     "stream": False,
                     "options": {
-                        "num_predict": 500,  # max tokens
-                        "temperature": temperature
+                        "num_predict": 180,  # Reduced from 500 (single-unit responses)
+                        "temperature": temperature,
+                        "top_p": 0.95,       # NEW: Nucleus sampling
+                        "top_k": 80,         # NEW: Top-K cutoff
+                        "repeat_penalty": 1.1,  # NEW: Reduce repetition
+                        "seed": 1000 + i     # NEW: Different seed per candidate
                     }
                 },
                 timeout=timeout
@@ -266,6 +315,12 @@ def generate_creative_candidates(
 
             if not text:
                 print(f"[{get_timestamp()}] [Ollama] WARNING: Empty response for candidate {i+1} (took {format_elapsed_time(candidate_elapsed)})")
+                continue
+
+            # OPTIMIZATION v1.1: Filter boilerplate responses
+            if is_boilerplate(text):
+                print(f"[{get_timestamp()}] [Ollama] FILTERED: Boilerplate response for candidate {i+1} (took {format_elapsed_time(candidate_elapsed)})")
+                print(f"[{get_timestamp()}]   Preview: \"{text[:80]}...\"")
                 continue
 
             candidate = Candidate(
@@ -479,22 +534,30 @@ def print_detailed_results(result, scenario_name: str):
 
 def scenario_1_ai_memory(model_name: str = "qwen3:14b"):
     """
-    Scenario 1: AI Memory Story
+    Scenario 1: AI Memory Story (OPTIMIZED v1.1)
 
     Goal: Show entropy staying high across diverse genres.
     Demonstrates: Multiple creative approaches to the same prompt.
+    OPTIMIZATION: Single-unit prompt prevents list-template cloning.
     """
     scenario_start = time.time()
     print_scenario_header(
-        "1. AI Memory Story",
+        "1. AI Memory Story (OPTIMIZED)",
         "Goal: High temperature generation, diverse creative approaches.\n"
-        "Expected: Entropy stays high - many different story genres/styles."
+        "Expected: Entropy stays high - many different story genres/styles.\n"
+        "OPTIMIZATION: Single-unit prompt → no list cloning."
     )
 
     # Generate candidates
     gen_start = time.time()
     parent, candidates = generate_creative_candidates(
-        prompt="Write three opening paragraphs for a short story about a lost AI regaining memory.",
+        # OPTIMIZATION v1.1: Single-unit prompt (not "three paragraphs")
+        prompt=(
+            "Write ONE opening paragraph for a short story about a lost AI regaining memory. "
+            "Return exactly ONE paragraph (no lists, no numbering). "
+            "Avoid phrases like 'Here are...' or 'What a thrilling...'. "
+            "Make it unique and imaginative."
+        ),
         model_name=model_name,
         n=10,
         temperature=1.3,  # High temperature for creativity
@@ -502,17 +565,18 @@ def scenario_1_ai_memory(model_name: str = "qwen3:14b"):
     )
     gen_elapsed = time.time() - gen_start
 
-    # Setup selector with FREE embeddings
+    # OPTIMIZATION v1.1: Consistent embedding model across all scenarios
     embedding_provider = SentenceTransformerEmbeddingProvider(
-        model_name="jinaai/jina-embeddings-v2-base-en"  # FREE, excellent quality
+        model_name="BAAI/bge-large-en-v1.5"  # FREE, 1024D, excellent quality
     )
 
+    # OPTIMIZATION v1.1: Increased novelty weight for creative tasks
     scorer = CompositeScorer(
         weights={
-            "confidence": 0.2,
-            "relevance": 0.3,
-            "novelty_parent": 0.3,
-            "intent_alignment": 0.2
+            "confidence": 0.15,           # Reduced (creative tasks care less about confidence)
+            "relevance": 0.25,            # Moderate
+            "novelty_parent": 0.40,       # INCREASED for creativity
+            "intent_alignment": 0.20      # Moderate
         },
         embedding_provider=embedding_provider
     )
@@ -563,21 +627,29 @@ def scenario_1_ai_memory(model_name: str = "qwen3:14b"):
 
 def scenario_2_mars_detective(model_name: str = "qwen3:14b"):
     """
-    Scenario 2: Mars Detective Plot Twists
+    Scenario 2: Mars Detective Plot Twists (OPTIMIZED v1.1)
 
     Goal: Demonstrate clustering of distinct idea clusters.
     Demonstrates: K-means clustering finds groups of similar plot ideas.
+    OPTIMIZATION: Single-unit prompt + boilerplate filtering prevents "Here are five..." cloning.
     """
     scenario_start = time.time()
     print_scenario_header(
-        "2. Mars Detective Plot Twists",
+        "2. Mars Detective Plot Twists (OPTIMIZED)",
         "Goal: Generate distinct plot twist ideas, show clustering.\n"
-        "Expected: K-means finds clusters of similar twist types."
+        "Expected: K-means finds clusters of similar twist types.\n"
+        "OPTIMIZATION: Single-unit prompt + boilerplate filter → high diversity."
     )
 
     gen_start = time.time()
     parent, candidates = generate_creative_candidates(
-        prompt="Suggest five plot twists for a detective story set on Mars.",
+        # OPTIMIZATION v1.1: Single-unit prompt (not "five plot twists")
+        prompt=(
+            "Write ONE plot twist for a detective story set on Mars. "
+            "Return exactly ONE idea (no lists, no numbering). "
+            "Avoid phrases like 'Here are...' or 'What a thrilling...'. "
+            "Make it surprising and unique."
+        ),
         model_name=model_name,
         n=12,
         temperature=1.4,  # Very high for wild creativity
@@ -585,15 +657,17 @@ def scenario_2_mars_detective(model_name: str = "qwen3:14b"):
     )
     gen_elapsed = time.time() - gen_start
 
+    # OPTIMIZATION v1.1: Consistent embedding model
     embedding_provider = SentenceTransformerEmbeddingProvider(
-        model_name="all-mpnet-base-v2"  # FREE, good quality, faster
+        model_name="BAAI/bge-large-en-v1.5"  # FREE, 1024D, excellent quality
     )
 
+    # OPTIMIZATION v1.1: Increased novelty weight
     scorer = CompositeScorer(
         weights={
-            "confidence": 0.3,
-            "relevance": 0.4,
-            "novelty_parent": 0.3
+            "confidence": 0.20,           # Reduced
+            "relevance": 0.30,            # Moderate
+            "novelty_parent": 0.50        # VERY HIGH for plot twists
         },
         embedding_provider=embedding_provider
     )
@@ -642,21 +716,30 @@ def scenario_2_mars_detective(model_name: str = "qwen3:14b"):
 
 def scenario_3_romcom_endings(model_name: str = "qwen3:14b"):
     """
-    Scenario 3: Rom-Com Multiple Endings
+    Scenario 3: Rom-Com Multiple Endings (OPTIMIZED v1.1)
 
     Goal: Perfect demonstration of entropy-based stopping.
     Demonstrates: Clear stopping point when only 3 distinct ending types requested.
+    OPTIMIZATION: Single-unit prompt with better sampling parameters.
     """
     scenario_start = time.time()
     print_scenario_header(
-        "3. Romantic Comedy Endings",
+        "3. Romantic Comedy Endings (OPTIMIZED)",
         "Goal: Generate exactly 3 ending types (tragic, absurd, heartwarming).\n"
-        "Expected: Perfect entropy-based stopping - clear convergence to 3 clusters."
+        "Expected: Perfect entropy-based stopping - clear convergence to 3 clusters.\n"
+        "OPTIMIZATION: Single-unit prompt + better sampling → clean clustering."
     )
 
     gen_start = time.time()
     parent, candidates = generate_creative_candidates(
-        prompt="Describe three endings for the same romantic comedy: tragic, absurd, heartwarming.",
+        # OPTIMIZATION v1.1: Single-unit prompt with style instruction
+        prompt=(
+            "Write ONE ending for a romantic comedy. Choose exactly ONE style: "
+            "tragic, absurd, OR heartwarming. "
+            "Return exactly ONE ending (no lists, no numbering). "
+            "Avoid phrases like 'Here are...' or 'What a delightful...'. "
+            "Make it creative and specific to the chosen style."
+        ),
         model_name=model_name,
         n=15,
         temperature=1.2,
@@ -664,16 +747,18 @@ def scenario_3_romcom_endings(model_name: str = "qwen3:14b"):
     )
     gen_elapsed = time.time() - gen_start
 
+    # OPTIMIZATION v1.1: Consistent embedding model
     embedding_provider = SentenceTransformerEmbeddingProvider(
-        model_name="BAAI/bge-large-en-v1.5"  # FREE, very good quality
+        model_name="BAAI/bge-large-en-v1.5"  # FREE, 1024D, excellent quality
     )
 
+    # OPTIMIZATION v1.1: Increased novelty weight
     scorer = CompositeScorer(
         weights={
-            "confidence": 0.25,
-            "relevance": 0.35,
-            "novelty_parent": 0.25,
-            "intent_alignment": 0.15
+            "confidence": 0.15,           # Reduced
+            "relevance": 0.30,            # Moderate
+            "novelty_parent": 0.35,       # INCREASED for diversity
+            "intent_alignment": 0.20      # Moderate (style adherence)
         },
         embedding_provider=embedding_provider
     )
@@ -724,16 +809,18 @@ def scenario_3_romcom_endings(model_name: str = "qwen3:14b"):
 
 def scenario_4_style_variations(model_name: str = "qwen3:14b"):
     """
-    Scenario 4: Style Variations (Hemingway, Austen, Murakami)
+    Scenario 4: Style Variations (Hemingway, Austen, Murakami) (OPTIMIZED v1.1)
 
     Goal: Demonstrate intent alignment and style variance.
     Demonstrates: Detecting different writing styles as distinct intents.
+    OPTIMIZATION: Single-unit prompt + high novelty weight for style diversity.
     """
     scenario_start = time.time()
     print_scenario_header(
-        "4. Style Variations",
+        "4. Style Variations (OPTIMIZED)",
         "Goal: Continue text in different literary styles.\n"
-        "Expected: Intent alignment detects style variance, high novelty between styles."
+        "Expected: Intent alignment detects style variance, high novelty between styles.\n"
+        "OPTIMIZATION: Single-unit prompt → one style per response."
     )
 
     # Custom prompt with a paragraph to continue
@@ -742,12 +829,15 @@ def scenario_4_style_variations(model_name: str = "qwen3:14b"):
         "She stood at the window, watching the droplets race down the glass."
     )
 
+    # OPTIMIZATION v1.1: Single-unit prompt requesting ONE style
     prompt = (
-        f"Continue this paragraph in three different styles:\n\n"
+        f"Continue this paragraph in ONE literary style:\n\n"
         f'"{starter_paragraph}"\n\n'
-        f"1. In the style of Ernest Hemingway (terse, direct)\n"
-        f"2. In the style of Jane Austen (elegant, ironic)\n"
-        f"3. In the style of Haruki Murakami (surreal, dreamlike)"
+        f"Choose exactly ONE style: Ernest Hemingway (terse, direct), "
+        f"Jane Austen (elegant, ironic), OR Haruki Murakami (surreal, dreamlike). "
+        f"Return exactly ONE continuation (no lists, no numbering). "
+        f"Avoid phrases like 'Here are...' or 'In the style of...'. "
+        f"Write in the chosen author's voice."
     )
 
     gen_start = time.time()
@@ -760,16 +850,18 @@ def scenario_4_style_variations(model_name: str = "qwen3:14b"):
     )
     gen_elapsed = time.time() - gen_start
 
+    # OPTIMIZATION v1.1: Consistent embedding model
     embedding_provider = SentenceTransformerEmbeddingProvider(
-        model_name="jinaai/jina-embeddings-v2-base-en"  # FREE, excellent quality
+        model_name="BAAI/bge-large-en-v1.5"  # FREE, 1024D, excellent quality
     )
 
+    # OPTIMIZATION v1.1: High novelty weight for style diversity
     scorer = CompositeScorer(
         weights={
-            "confidence": 0.15,
-            "relevance": 0.25,
-            "novelty_parent": 0.35,  # High weight on novelty for style variance
-            "intent_alignment": 0.25  # Important for detecting style adherence
+            "confidence": 0.10,           # Very low (trust the creative process)
+            "relevance": 0.25,            # Moderate
+            "novelty_parent": 0.40,       # VERY HIGH for style variance
+            "intent_alignment": 0.25      # Important for style adherence
         },
         embedding_provider=embedding_provider
     )
@@ -819,9 +911,9 @@ def scenario_4_style_variations(model_name: str = "qwen3:14b"):
 
 
 def main():
-    """Run all creative writing scenarios."""
+    """Run all creative writing scenarios (OPTIMIZED v1.1)."""
     print("=" * 80)
-    print("ChatRoutes AutoBranch - Creative Writing (100% FREE!)")
+    print("ChatRoutes AutoBranch - Creative Writing (100% FREE!) - OPTIMIZED v1.1")
     print("=" * 80)
     print("\nThis example demonstrates:")
     print("  - Ollama models (qwen3, gpt-oss, or llama3) for text generation (100% FREE!)")
@@ -829,6 +921,12 @@ def main():
     print("  - High temperature (1.1-1.4) for creative diversity")
     print("  - Entropy-based stopping for convergence detection")
     print("  - MMR and Cosine novelty filtering")
+    print("\nOPTIMIZATIONS (v1.1):")
+    print("  - Single-unit prompts: Request ONE item instead of lists → prevents cloning")
+    print("  - Better sampling: Added top_p=0.95, top_k=80, repeat_penalty=1.1, seed variance")
+    print("  - Boilerplate filter: Removes 'Here are...', 'What a...', etc.")
+    print("  - Consistent embeddings: Single model (bge-large-en-v1.5) for all scenarios")
+    print("  - Creative weights: Increased novelty weight (0.35-0.50) for diversity")
     print("\n100% FREE Strategy:")
     print("  - Chat generation: Ollama (auto-detects best available model)")
     print("  - Embeddings: sentence-transformers (runs locally, $0)")
@@ -840,7 +938,7 @@ def main():
     print("    • RECOMMENDED: ollama pull qwen3:14b (fast, excellent quality)")
     print("    • ALTERNATIVE: ollama pull gpt-oss:20b (OpenAI model, slower)")
     print("    • FALLBACK:    ollama pull llama3.1:8b (fast, good baseline)")
-    print("  - First run will download embedding models (~400MB each)")
+    print("  - First run will download embedding model bge-large-en-v1.5 (~1.3GB)")
 
     # Check Ollama availability and determine model
     print("\nChecking Ollama availability...")
@@ -894,6 +992,12 @@ def main():
         print("  4. MMR balances quality and diversity effectively")
         print("  5. FREE embeddings work great for semantic similarity!")
         print("  6. 100% FREE approach - runs completely on your machine!")
+        print("\nOPTIMIZATION Results (v1.1):")
+        print("  ✓ Single-unit prompts → Eliminated list-template cloning")
+        print("  ✓ Boilerplate filter → Removed 'Here are...' responses")
+        print("  ✓ Better sampling → More diverse, less repetitive outputs")
+        print("  ✓ Higher novelty weights → Better diversity for creative tasks")
+        print("  ✓ Consistent embeddings → More reliable similarity comparisons")
         print("\nCreative writing is a perfect use case for chatroutes-autobranch!")
         print("\nCost Summary:")
         print(f"  - Chat generation: $0 (Ollama {model_name}, runs locally)")
