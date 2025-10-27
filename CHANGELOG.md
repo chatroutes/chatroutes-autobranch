@@ -7,6 +7,81 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-01-27
+
+### Added
+
+#### Branch Detection Module (NEW! 🎉)
+- **BranchExtractor** for deterministic pattern-based branch point extraction
+  - Enumerations detection (numbered lists 1. 2. 3., bullets -, *, •)
+  - Disjunctions detection ("or" patterns: A or B or C)
+  - Conditionals detection (if...then...else patterns)
+  - Combinatorial counting (calculate Π(k1 × k2 × ... × kn))
+  - Statistics and complexity metrics (total branches, max leaves, breakdown by type)
+
+- **BranchPoint & BranchOption** data models
+  - Type-safe dataclasses for branch representation
+  - Support for nested dependencies (depends_on field)
+  - Context preservation for original text spans
+  - Metadata support for custom extensions
+
+- **LLMBranchParser** for optional LLM-assisted extraction
+  - JSON schema enforcement for structured extraction
+  - Fallback mechanism for complex/implicit choices
+  - Confidence metadata tracking
+  - Retry logic with error handling
+
+- **Interactive Colab Notebook** - `branch_detection_demo.ipynb`
+  - Try-your-own-text interactive sections
+  - Real-world LLM response analysis
+  - Pattern reference guide
+  - Conversation path analysis examples
+  - Optional LLM integration demo
+
+#### Documentation
+- **BRANCH_DETECTION_MODULE.md** - Complete module documentation with API reference
+- **BRANCHING_DETERMINATION_GUIDE.md** - User FAQ: "How to determine branches from text?"
+- **BRANCHING_ANALYSIS.md** - 5 approaches to analyze branching potential
+- **BRANCH_DETECTION_RELEASE.md** - Comprehensive release notes
+
+#### Examples
+- `branch_detection_usage.py` - Complete usage examples with 5 scenarios
+- `analyze_branching_potential.py` - Heuristic vs LLM analysis tools
+
+#### Tests
+- 34 comprehensive tests for branch_detection module
+- 93% code coverage (extractor), 92% (parser), 100% (models)
+- Edge case coverage (empty text, single items, nested patterns)
+
+### Changed
+- Updated README.md with branch detection feature section
+- Updated notebooks/README.md with new Colab notebook
+- Enhanced package description in pyproject.toml
+- Updated __init__.py with branch_detection exports
+
+### Technical Details
+- **Pattern Detection**: Uses regex-based deterministic matching
+- **Performance**: ~1-5ms per text (no API calls for deterministic mode)
+- **Zero Breaking Changes**: Module is completely optional
+- **Thread-Safe**: Stateless extractors safe for concurrent use
+
+### Use Cases
+- Pre-analyze LLM responses before branching generation
+- Count conversation path complexity
+- Estimate branching potential without generation
+- Extract structured choices from unstructured text
+- Budget planning for tree exploration
+
+---
+
+## [1.0.1] - 2025-01-25
+
+### Fixed
+- Documentation corrections and clarity improvements
+- Example code updates for better usability
+
+---
+
 ## [0.1.0] - 2025-01-19
 
 ### Added
@@ -134,5 +209,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v0.1.0...HEAD
+[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.1.0
+[1.0.1]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.0.1
 [0.1.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v0.1.0

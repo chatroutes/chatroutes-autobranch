@@ -2,6 +2,7 @@
 chatroutes-autobranch: Controlled branching generation for LLM applications.
 
 This library provides clean, standalone primitives for:
+- Branch detection (identify decision points in text)
 - Beam search with composite scoring
 - Novelty pruning (cosine similarity, MMR)
 - Entropy-based stopping
@@ -9,7 +10,7 @@ This library provides clean, standalone primitives for:
 - Pluggable, testable, replaceable components
 """
 
-__version__ = "0.1.0"
+__version__ = "1.1.0"
 
 # Core dataclasses
 from chatroutes_autobranch.core.candidate import (
@@ -65,6 +66,14 @@ from chatroutes_autobranch.config.loader import (
     create_default_config,
 )
 
+# Branch detection
+from chatroutes_autobranch.branch_detection import (
+    BranchExtractor,
+    BranchOption,
+    BranchPoint,
+    LLMBranchParser,
+)
+
 __all__ = [
     # Version
     "__version__",
@@ -98,4 +107,9 @@ __all__ = [
     # Config
     "load_config",
     "create_default_config",
+    # Branch detection
+    "BranchExtractor",
+    "BranchOption",
+    "BranchPoint",
+    "LLMBranchParser",
 ]

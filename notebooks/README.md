@@ -31,7 +31,33 @@ Interactive Google Colab notebooks to learn and experiment with ChatRoutes AutoB
 
 ---
 
-### 2. Creative Writing Scenario (Advanced)
+### 2. Branch Detection Demo (NEW! 🎉)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/branch_detection_demo.ipynb)
+
+**Perfect for**: Analyzing LLM responses, understanding branching complexity, interactive exploration
+
+**What you'll learn**:
+- Extract branch points from text (no LLM needed)
+- Count possible conversation paths
+- Detect patterns (enumerations, disjunctions, conditionals)
+- Get branching statistics
+- Optional LLM assist for complex cases
+- Try your own text interactively
+
+**Time**: ~10 minutes
+**Requirements**: None (runs entirely in Colab)
+**Dependencies**: Only chatroutes-autobranch
+
+**Use this notebook when**:
+- You want to analyze text for decision points
+- You need to count conversation complexity
+- You're estimating branching before generation
+- You want to understand branch detection patterns
+
+---
+
+### 3. Creative Writing Scenario (Advanced)
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/creative_writing_colab.ipynb)
 
@@ -61,6 +87,8 @@ Interactive Google Colab notebooks to learn and experiment with ChatRoutes AutoB
 | Goal | Notebook | Why |
 |------|----------|-----|
 | **Learn the basics** | Getting Started Demo | Simple, fast, no complex setup |
+| **Analyze text for branches** | Branch Detection Demo | Extract decision points, count paths |
+| **Interactive exploration** | Branch Detection Demo | Try your own text |
 | **Video tutorial** | Getting Started Demo | Clear examples, easy to explain |
 | **Quick test** | Getting Started Demo | Runs in 5 minutes |
 | **Real LLM integration** | Creative Writing | Shows Ollama integration |
@@ -99,9 +127,15 @@ Interactive Google Colab notebooks to learn and experiment with ChatRoutes AutoB
    - Novelty filtering
    - Budget management
 
+2. **Branch Detection Demo** - Analyze text for branches
+   - Pattern detection
+   - Path counting
+   - Interactive exploration
+   - Statistics & metrics
+
 ### Intermediate
 
-2. **Creative Writing Scenario** - See it in action
+3. **Creative Writing Scenario** - See it in action
    - LLM integration (Ollama)
    - Multi-turn branching
    - Real embeddings
@@ -109,7 +143,7 @@ Interactive Google Colab notebooks to learn and experiment with ChatRoutes AutoB
 
 ### Advanced
 
-3. **Build Your Own** - Apply to your use case
+4. **Build Your Own** - Apply to your use case
    - Check [examples/](../examples/) folder
    - Read [QUICKSTART.md](../QUICKSTART.md)
    - Review [API docs](../README.md)

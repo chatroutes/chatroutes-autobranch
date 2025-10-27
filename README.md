@@ -10,6 +10,7 @@
 
 Modern LLM applications often need to explore multiple reasoning paths (tree-of-thought, beam search, multi-agent systems) while staying **usable** and **affordable**. `chatroutes-autobranch` provides clean, standalone primitives for:
 
+- 🔍 **Branch Detection** – Identify decision points in text (enumerations, disjunctions, conditionals)
 - 🎯 **Beam Search** – Pick the *best K* candidates by configurable scoring
 - 🌈 **Diversity Control** – Ensure variety via novelty pruning (cosine similarity, MMR)
 - 🛑 **Smart Stopping** – Know when to stop via entropy/information-gain metrics
@@ -38,6 +39,16 @@ Modern LLM applications often need to explore multiple reasoning paths (tree-of-
 - ✅ Complete pipeline with budget control
 
 **No setup required** - runs entirely in your browser!
+
+### Branch Detection Demo (NEW! 🎉)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/branch_detection_demo.ipynb)
+
+**Analyze text for decision points!** Interactive branch detection:
+- ✅ Extract branch points from LLM responses
+- ✅ Count possible conversation paths
+- ✅ Pattern-based detection (no LLM needed)
+- ✅ Optional LLM assist for complex cases
+- ✅ Try your own text interactively
 
 ### Creative Writing Scenario (Advanced)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/creative_writing_colab.ipynb)
@@ -103,6 +114,50 @@ embeddings:
 
 ---
 
+## 🔍 Branch Detection (NEW!)
+
+**Analyze text to identify decision points** before generating branches:
+
+```python
+from chatroutes_autobranch import BranchExtractor
+
+# Analyze LLM response for branch points
+text = """
+Backend options:
+1. Flask - lightweight
+2. FastAPI - modern
+3. Django - full-featured
+
+Database: Postgres or MySQL
+"""
+
+extractor = BranchExtractor()
+branch_points = extractor.extract(text)
+
+print(f"Found {len(branch_points)} decision points")
+# Output: Found 2 decision points
+
+print(f"Max paths: {extractor.count_max_leaves(branch_points)}")
+# Output: Max paths: 6 (3 backends × 2 databases)
+```
+
+**Features:**
+- ✅ **Deterministic pattern matching** - No LLM needed (fast, free)
+- ✅ **Detects multiple patterns** - Enumerations, disjunctions, conditionals
+- ✅ **Combinatorial counting** - Calculate max possible paths (Π ki)
+- ✅ **Optional LLM assist** - Fallback for complex/implicit cases
+- ✅ **Statistics & analysis** - Breakdown by type, complexity metrics
+
+**Use Cases:**
+- Pre-analyze LLM responses before branching
+- Count conversation path complexity
+- Estimate branching potential from text
+- Extract structured choices from unstructured responses
+
+[**Try it in Colab →**](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/branch_detection_demo.ipynb)
+
+---
+
 ## Why Use This?
 
 **Problem:** Exploring multiple LLM reasoning paths (e.g., tree-of-thought) quickly becomes:
@@ -124,6 +179,7 @@ embeddings:
 
 | Scenario | Configuration | Benefit |
 |----------|--------------|---------|
+| **Branch Analysis** | BranchExtractor only | Analyze text for decision points, count paths (no generation) |
 | **Tree-of-Thought Reasoning** | K=5, cosine novelty, entropy stopping | Explore diverse reasoning paths without explosion |
 | **Multi-Agent Debate** | K=3, MMR novelty (λ=0.3) | Select diverse agent perspectives, avoid redundancy |
 | **Code Generation** | K=4, high relevance weight | Generate varied solutions, prune duplicates |
@@ -134,8 +190,17 @@ embeddings:
 
 ## Architecture
 
-**Pipeline (fixed order):**
+**Two-Phase Workflow:**
+
 ```
+Phase 1: Branch Detection (Optional, Pre-Analysis)
+──────────────────────────────────────────────────
+Text → BranchExtractor → Branch Points → Count Max Paths
+                       → Statistics
+                       → Decision: Generate or Skip?
+
+Phase 2: Branch Selection (Core Pipeline)
+──────────────────────────────────────────
 Raw Candidates (N)
     ↓
 1. Scoring (composite: confidence + relevance + novelty + intent + reward)
@@ -150,6 +215,8 @@ Raw Candidates (N)
 ```
 
 **Pluggable Components:**
+- **BranchExtractor**: Deterministic pattern matching (optional)
+- **LLMBranchParser**: LLM-based extraction (optional fallback)
 - **Scorer**: Composite (built-in) or custom
 - **EmbeddingProvider**: OpenAI, HuggingFace, or custom
 - **NoveltyFilter**: Cosine threshold or MMR
