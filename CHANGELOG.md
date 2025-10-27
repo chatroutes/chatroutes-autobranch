@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.0] - 2025-01-27
+## [0.2.0] - 2025-01-27
+
+**Note**: Version corrected from 1.1.0 to follow proper semantic versioning (0.x.x for pre-1.0 releases)
 
 ### Added
 
@@ -209,7 +211,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v1.1.0...HEAD
-[1.1.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.1.0
+[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v0.2.0
 [1.0.1]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.0.1
 [0.1.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v0.1.0
