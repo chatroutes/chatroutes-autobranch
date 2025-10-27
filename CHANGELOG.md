@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.0] - 2025-01-27
+## [1.2.0] - 2025-01-27
 
-**Note**: Version corrected from 1.1.0 to follow proper semantic versioning (0.x.x for pre-1.0 releases)
+**Note**: This release contains the same features as 0.2.0. Due to PyPI version ordering (1.1.0 > 0.2.0), we're publishing as 1.2.0 to ensure users get the latest code. See version history below for details.
+
+### Version History Clarification
+
+- `0.1.0` → Initial release (correct)
+- `1.0.1` → Should have been 0.1.1 (versioning error)
+- `1.1.0` → Should have been 0.2.0 (versioning error)
+- `0.2.0` → Published but PyPI shows 1.1.0 as "latest" due to version comparison
+- `1.2.0` → **Current release** - contains 0.2.0 features with corrected version for PyPI
+
+**Moving forward**: Versions will continue from 1.2.0 following semantic versioning.
 
 ### Added
 
@@ -211,7 +221,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v0.2.0...HEAD
+[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.2.0
 [0.2.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v0.2.0
 [1.0.1]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.0.1
 [0.1.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v0.1.0

@@ -1,6 +1,6 @@
 [project]
 name = "chatroutes-autobranch"
-version = "0.2.0"
+version = "1.2.0"
 description = "Intelligent branch exploration for LLM-powered applications with branch detection"
 readme = "README.md"
 requires-python = ">=3.9"
