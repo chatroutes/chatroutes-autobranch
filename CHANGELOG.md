@@ -7,7 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2025-10-27
+
+### Fixed
+- Corrected `__version__` string in `__init__.py` to match package version
+
+---
+
 ## [1.3.0] - 2025-10-27
+
+**Note**: This version has a minor issue where `__version__` reports "1.2.0" instead of "1.3.0". Use v1.3.1 instead.
 
 ### Added
 
@@ -327,7 +336,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v1.3.0...HEAD
+[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.3.1
 [1.3.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.3.0
 [1.2.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.2.0
 [0.2.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v0.2.0

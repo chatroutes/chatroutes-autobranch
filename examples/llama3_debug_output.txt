@@ -1,0 +1,54 @@
+================================================================================
+Testing Llama 3 Integration
+================================================================================
+
+[7] Creating parser...
+
+[8] Parsing conversation...
+
+[1] Calling Llama 3...
+[2] Prompt length: 1288 chars
+[3] Response length: 328 chars
+[4] First 200 chars: {
+  "branch_points": [
+    {
+      "id": "bp1",
+      "type": "disjunction",
+      "options": [
+        {"id": "opt1", "label": "Flask", "span": "Should I use Flask or"},
+        {"id": "opt2", "label
+[5] Last 200 chars: "Flask", "span": "Should I use Flask or"},
+        {"id": "opt2", "label": "FastAPI", "span": "Should I use FastAPI"}
+      ],
+      "context": "original text span",
+      "depends_on": []
+    }
+  ]
+}
+
+[6] FULL RESPONSE:
+{
+  "branch_points": [
+    {
+      "id": "bp1",
+      "type": "disjunction",
+      "options": [
+        {"id": "opt1", "label": "Flask", "span": "Should I use Flask or"},
+        {"id": "opt2", "label": "FastAPI", "span": "Should I use FastAPI"}
+      ],
+      "context": "original text span",
+      "depends_on": []
+    }
+  ]
+}
+
+[9] RESULTS:
+    Success: True
+    Error: None
+    Branches: 1
+
+    Branch 1:
+      Type: disjunction
+      Options: 2
+        - Flask
+        - FastAPI
