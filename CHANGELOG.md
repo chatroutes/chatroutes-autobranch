@@ -7,6 +7,112 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-10-27
+
+### Added
+
+#### Conversation Analysis & Intelligent Routing (NEW! 🎉)
+
+- **ConversationFlowAnalyzer** - Hybrid detection combining explicit and semantic branch detection
+  - Explicit detection using BRANCH: markers (100% confidence)
+  - Semantic detection for implicit patterns:
+    - Topic shifts via embedding similarity
+    - Decision points (curiosity → commitment patterns)
+    - Question → Action transitions
+  - Combined graph output showing conversation flow
+  - Configurable topic shift threshold
+
+- **IntelligentRouter** - Heuristic-based automatic LLM decision making
+  - 5 heuristics for LLM value estimation:
+    - Complexity (turn length, vocabulary diversity)
+    - Ambiguity (hedging language, conditionals)
+    - Hybrid Quality (branches found - inverse metric)
+    - Coverage (% turns covered - inverse metric)
+    - Implicit Signals ("torn between", complex conditionals)
+  - Weighted decision formula with configurable threshold
+  - Budget constraints (time, cost)
+  - Three optimization strategies: balanced, speed-optimized, thoroughness-optimized
+  - **LLM is opt-in by default** (enable_llm_routing=False)
+
+- **AutoRouter** - Convenience wrapper for intelligent routing
+  - Automatically executes hybrid analysis
+  - Conditionally uses LLM based on heuristics
+  - Verbose mode for decision explanations
+  - Returns combined results with metadata
+
+- **Flexible LLM Integration** - Provider-agnostic design
+  - Works with any LLM via simple function interface (str → str)
+  - Examples for 5 providers: OpenAI, Anthropic, Groq, Ollama, Custom
+  - LLMBranchParser validates and structures LLM responses
+
+#### Documentation
+
+- **HYBRID_BRANCH_DETECTION.md** - Complete guide to hybrid detection
+  - Explicit vs semantic detection comparison
+  - Configuration and usage examples
+  - Performance characteristics
+
+- **INTELLIGENT_ROUTING.md** - Intelligent LLM routing guide
+  - Default opt-in behavior (LLM disabled by default)
+  - Three routing modes: hybrid-only, intelligent, always-LLM
+  - Heuristic explanation and decision formula
+  - Configuration strategies and examples
+  - Decision examples with expected outcomes
+
+- **LLAMA3_QUICKSTART.md** - Quick start guide for Llama 3 integration
+  - Multiple integration methods (Ollama, Groq, HTTP, Hugging Face)
+  - Installation instructions
+  - Example code and outputs
+
+#### Examples
+
+- `analyze_conversation.py` - Basic conversation analysis demo
+- `analyze_conversation_hybrid.py` - Hybrid detection with explicit + semantic
+- `article_conversation_analysis.py` - Real-world article planning analysis
+- `intelligent_routing_demo.py` - Complete intelligent routing demonstration with 4 test cases
+- `llama3_simple.py` - Simple Llama 3 integration
+- `llama3_debug.py` - Debug version showing LLM responses
+- `llama3_branch_detection.py` - Complete integration with 4 LLM providers
+
+#### Interactive Notebook
+
+- **conversation_analysis_colab.ipynb** - Comprehensive interactive notebook
+  - Pattern detection examples (instant, no LLM)
+  - Hybrid conversation analysis
+  - Flexible LLM integration for 5 providers
+  - Intelligent routing demonstrations
+  - Interactive "try your own" sections
+  - Real-world article planning use case
+  - Performance and provider comparisons
+
+### Changed
+
+- Updated `branch_detection/__init__.py` to export new classes:
+  - ConversationFlowAnalyzer
+  - ConversationTurn
+  - SemanticBranch
+  - IntelligentRouter
+  - AutoRouter
+  - RouterDecision
+
+### Key Features
+
+- **Opt-in LLM**: Default is hybrid-only (fast, free), LLM requires explicit enable_llm_routing=True
+- **Heuristic-based**: Automatic decision making based on 5 weighted metrics
+- **Provider-agnostic**: Works with any LLM (OpenAI, Anthropic, Ollama, Groq, custom)
+- **Three-tier detection**: Explicit (deterministic) → Semantic (pattern-based) → LLM (optional)
+- **Production-ready**: Budget management, time constraints, verbose logging
+
+### Performance
+
+| Method | Speed | Cost | Detection Quality |
+|--------|-------|------|------------------|
+| Hybrid Only | <0.1s | $0 | Excellent for most cases |
+| + Intelligent Router (skipped) | <0.1s | $0 | Same as hybrid |
+| + Intelligent Router (used) | 1-5s | ~$0.0001 | Best for complex/ambiguous |
+
+---
+
 ## [1.2.0] - 2025-01-27
 
 **Note**: This release contains the same features as 0.2.0. Due to PyPI version ordering (1.1.0 > 0.2.0), we're publishing as 1.2.0 to ensure users get the latest code. See version history below for details.
@@ -221,7 +327,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v1.2.0...HEAD
+[unreleased]: https://github.com/chatroutes/chatroutes-autobranch/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.3.0
 [1.2.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.2.0
 [0.2.0]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v0.2.0
 [1.0.1]: https://github.com/chatroutes/chatroutes-autobranch/releases/tag/v1.0.1
