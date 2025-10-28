@@ -11,6 +11,8 @@
 Modern LLM applications often need to explore multiple reasoning paths (tree-of-thought, beam search, multi-agent systems) while staying **usable** and **affordable**. `chatroutes-autobranch` provides clean, standalone primitives for:
 
 - 🔍 **Branch Detection** – Identify decision points in text (enumerations, disjunctions, conditionals)
+- 💬 **Conversation Analysis** – Hybrid detection (explicit + semantic) for multi-turn conversations
+- 🧠 **Intelligent Routing** – Automatic LLM decision-making based on heuristics (opt-in, provider-agnostic)
 - 🎯 **Beam Search** – Pick the *best K* candidates by configurable scoring
 - 🌈 **Diversity Control** – Ensure variety via novelty pruning (cosine similarity, MMR)
 - 🛑 **Smart Stopping** – Know when to stop via entropy/information-gain metrics
@@ -40,7 +42,7 @@ Modern LLM applications often need to explore multiple reasoning paths (tree-of-
 
 **No setup required** - runs entirely in your browser!
 
-### Branch Detection Demo (NEW! 🎉)
+### Branch Detection Demo
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/branch_detection_demo.ipynb)
 
 **Analyze text for decision points!** Interactive branch detection:
@@ -49,6 +51,17 @@ Modern LLM applications often need to explore multiple reasoning paths (tree-of-
 - ✅ Pattern-based detection (no LLM needed)
 - ✅ Optional LLM assist for complex cases
 - ✅ Try your own text interactively
+
+### Conversation Analysis & Intelligent Routing (NEW! 🎉)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/conversation_analysis_colab.ipynb)
+
+**Smart LLM routing with hybrid detection!** Multi-turn conversation analysis:
+- ✅ Hybrid detection (explicit + semantic patterns)
+- ✅ Intelligent LLM routing (opt-in, heuristic-based)
+- ✅ Works with ANY LLM (OpenAI, Anthropic, Ollama, Groq, custom)
+- ✅ Interactive examples with 5 provider integrations
+- ✅ Real-world article planning use case
+- ✅ **LLM disabled by default** - fast, free hybrid analysis!
 
 ### Creative Writing Scenario (Advanced)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chatroutes/chatroutes-autobranch/blob/master/notebooks/creative_writing_colab.ipynb)
